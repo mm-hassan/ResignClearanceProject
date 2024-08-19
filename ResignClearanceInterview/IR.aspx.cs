@@ -110,7 +110,7 @@ namespace ResignClearanceInterview
             try
             {
                 DataTable dt = new DataTable();
-                string query = "SELECT D.DETAIL_ID, D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 133 Order By D.DETAIL_ID";
+                string query = "SELECT D.DETAIL_ID, D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 133 AND D.VALUE1='Y' Order By D.DETAIL_ID";
                 dt = db.GetData(query);
                 if (dt.Rows.Count > 0)
                 {
@@ -119,11 +119,12 @@ namespace ResignClearanceInterview
                     dd_ResignReason.DataValueField = "DETAIL_ID";
                     dd_ResignReason.DataBind();
                     dd_ResignReason.Items.Insert(0, new ListItem("-- Select --", "0"));
+                    //dd_ResignReason.Items.Add(new ListItem("Other", "Other"));
                 }
             }
             catch (Exception ex)
             {
-
+                // Handle exception
             }
         }
 
@@ -159,7 +160,7 @@ namespace ResignClearanceInterview
         {
             try
             {
-                string query = "SELECT * FROM HRM_LIVE.HRM_EMP_RCI_QUESTIONS";
+                string query = "SELECT Q.SEQ_NO, Q.QUESTION, Q.QUESTION_ABOUT FROM HRM_LIVE.HRM_EMP_RCI_QUESTIONS Q WHERE Q.Isactive='A' ORDER BY Q.QUESTION_ABOUT, Q.SEQ_NO";
                 DataTable dt = new DataTable();
                 dt = db.GetData(query);
                 if (dt.Rows.Count > 0)
@@ -181,16 +182,40 @@ namespace ResignClearanceInterview
             //e.Row.Cells[2].Visible = false;
         }
 
+        //protected void dd_ResignReason_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (dd_ResignReason.SelectedValue == "Other")
+        //    {
+        //        divOtherReason.Style["display"] = "block";
+        //    }
+        //    else
+        //    {
+        //        divOtherReason.Style["display"] = "none";
+        //        txtOtherReason.Text = string.Empty;
+        //    }
+        //}
+
         protected void btn_Submit_Click(object sender, EventArgs e)
         {
             try
             {
+                string reasonsForLeavingString = null;
                 string EmpCode = txt_Employeecode.Text.ToString();
 
                 int cdrCd = Convert.ToInt32(db.GetCrdCd("SELECT A.HRM_CADRE_CD FROM HRM_EMPLOYEE A WHERE A.EMP_CD='" + EmpCode + "'"));
 
                 string ResignType = dd_ResignType.SelectedValue;
                 string ResignReason = dd_ResignReason.SelectedValue;
+
+                //// Extract Reasons for Leaving
+                //if (ResignReason == "Other")
+                //{
+                //    reasonsForLeavingString = txtOtherReason.Text.Trim();
+                //    if (!string.IsNullOrEmpty(reasonsForLeavingString))
+                //    {
+                //        ResignReason = "999";
+                //    }
+                //}
 
                 if (ResignType == "0" || ResignReason == "0")
                 {
@@ -214,9 +239,9 @@ namespace ResignClearanceInterview
                         if (cdrCd >= 12)
                         {
                             DateTime LastDutyDate = Convert.ToDateTime(txt_LastDutyDate.Text);
-                            string Remarks = txt_Remarks.Text;
-                            string Query = "INSERT INTO HRM_LIVE.HRM_EMP_RCI_REQUEST(REQUEST_ID, EMP_CD, RESIGN_TYPE, RESIGN_REASON, LAST_DUTY_DATE, REMARKS, ISACTIVE, L$USR_IN, L$IN_DATE, REQUEST_STATUS) ";
-                            Query += " VALUES((SELECT NVL(MAX(A.REQUEST_ID), 0) + 1 FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A), '" + EmpCode + "', '" + ResignType + "', '" + ResignReason + "', TO_DATE('" + LastDutyDate + "', 'mm/dd/yyyy hh:mi:ss am'), '" + Remarks + "', 'Y',  '" + EmployeeCode + "', sysdate, 'NR')";
+                            //string Remarks = txt_Remarks.Text;
+                            string Query = "INSERT INTO HRM_LIVE.HRM_EMP_RCI_REQUEST(REQUEST_ID, EMP_CD, RESIGN_TYPE, RESIGN_REASON, LAST_DUTY_DATE, ISACTIVE, L$USR_IN, L$IN_DATE, REQUEST_STATUS, REMARKS) ";
+                            Query += " VALUES((SELECT NVL(MAX(A.REQUEST_ID), 0) + 1 FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A), '" + EmpCode + "', '" + ResignType + "', '" + ResignReason + "', TO_DATE('" + LastDutyDate + "', 'mm/dd/yyyy hh:mi:ss am'), 'Y',  '" + EmployeeCode + "', sysdate, 'NR', '" + reasonsForLeavingString + "')";
 
                             string Result = db.PostData(Query);
 
@@ -234,7 +259,7 @@ namespace ResignClearanceInterview
                             if (FileUpload1.HasFile)
                             {
                                 DateTime LastDutyDate = Convert.ToDateTime(txt_LastDutyDate.Text);
-                                string Remarks = txt_Remarks.Text;
+                                //string Remarks = txt_Remarks.Text;
 
                                 string fileName = FileUpload1.FileName.ToLower();
                                 string fileExtension = Path.GetExtension(fileName).ToLower();
@@ -250,8 +275,8 @@ namespace ResignClearanceInterview
                                             OracleConnection con = new OracleConnection(orcconstring);
                                             byte[] bytes = br.ReadBytes((Int32)fs.Length);
 
-                                            string Query = "INSERT INTO HRM_LIVE.HRM_EMP_RCI_REQUEST(REQUEST_ID, EMP_CD, RESIGN_TYPE, RESIGN_REASON, LAST_DUTY_DATE, REMARKS, ISACTIVE, L$USR_IN, L$IN_DATE, REQUEST_STATUS,resign_attachment) ";
-                                            Query += " VALUES((SELECT NVL(MAX(A.REQUEST_ID), 0) + 1 FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A), '" + EmpCode + "', '" + ResignType + "', '" + ResignReason + "', TO_DATE('" + LastDutyDate + "', 'mm/dd/yyyy hh:mi:ss am'), '" + Remarks + "', 'Y',  '" + EmployeeCode + "', sysdate, 'NR',:Data)";
+                                            string Query = "INSERT INTO HRM_LIVE.HRM_EMP_RCI_REQUEST(REQUEST_ID, EMP_CD, RESIGN_TYPE, RESIGN_REASON, LAST_DUTY_DATE, ISACTIVE, L$USR_IN, L$IN_DATE, REQUEST_STATUS,resign_attachment, REMARKS) ";
+                                            Query += " VALUES((SELECT NVL(MAX(A.REQUEST_ID), 0) + 1 FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A), '" + EmpCode + "', '" + ResignType + "', '" + ResignReason + "', TO_DATE('" + LastDutyDate + "', 'mm/dd/yyyy hh:mi:ss am'), 'Y',  '" + EmployeeCode + "', sysdate, 'NR',:Data, '" + reasonsForLeavingString + "')";
 
                                             using (OracleCommand cmd = new OracleCommand(Query))
                                             {

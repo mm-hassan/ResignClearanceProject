@@ -20,7 +20,16 @@
             height:50px;
         }
     </style>--%>
+
     <style>
+        .checkbox-list .form-check-input {
+    margin-bottom: 10px; /* Adjust as needed */
+}
+
+.checkbox-list .form-check-label {
+    margin-left: 5px; /* Adjust as needed */
+}
+
        input[type="file"]::-webkit-file-upload-button {
             color: #666; /* or any other color */
             outline: none;
@@ -122,6 +131,7 @@
           </div>
         </div>
         <div class="card-body">
+
             <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="sparkline15-list mg-t-30">
@@ -133,7 +143,20 @@
                                              <asp:DropDownList ID="dd_ResignType" runat="server" CssClass="form-control form-control-sm" AutoPostBack="True" OnSelectedIndexChanged="dd_ResignType_SelectedIndexChanged">
                                                 <asp:ListItem>Select</asp:ListItem>
                                              </asp:DropDownList>
+                                                <asp:CustomValidator ID="CustomValidatorGender" ValidationGroup="val" ControlToValidate="dd_ResignType" runat="server" ErrorMessage="Reason field cannot be empty" Display="Dynamic" ForeColor="Red" ClientValidationFunction="validateGender">*</asp:CustomValidator>
                                         </div>
+                                        
+
+         <script type="text/javascript">
+             function validateGender(source, args) {
+                 var actionDropDown = document.getElementById('<%= dd_ResignType.ClientID %>');
+        if (actionDropDown.selectedIndex === 0) {
+            args.IsValid = false;
+        } else {
+            args.IsValid = true;
+        }
+    }
+</script>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-6">
                                         <div class="touchspin-inner">
@@ -141,14 +164,43 @@
                                               <asp:TextBox ID="txt_LastDutyDate" runat="server" TextMode="Date" class="form-control form-control-sm" ReadOnly="true"></asp:TextBox>
                                          </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-6">
+                                    <%--<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-6">
                                         <div class="touchspin-inner">
                                              <label>Resign Reason</label>
                                              <asp:DropDownList ID="dd_ResignReason" runat="server" CssClass="form-control form-control-sm">
                                                 <asp:ListItem>Select</asp:ListItem>
                                              </asp:DropDownList>
                                         </div>
-                                    </div>
+                                    </div>--%>
+
+
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-6">
+    <div class="touchspin-inner">
+        <label>Resign Reason</label>
+        <asp:DropDownList ID="dd_ResignReason" runat="server" CssClass="form-control form-control-sm" AutoPostBack="false" >
+            <asp:ListItem Text="-- Select --" Value="0"></asp:ListItem>
+        </asp:DropDownList>
+        <%--<div id="divOtherReason" style="display:none;" runat="server">
+            Please specify Reason: 
+            <asp:TextBox ID="txtOtherReason" runat="server" CssClass="form-control form-control-sm" />
+        </div>--%>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<%--<script>
+    $(document).ready(function () {
+        $('#<%= dd_ResignReason.ClientID %>').change(function () {
+            if ($(this).val() === 'Other') {
+                $('#divOtherReason').show();
+            } else {
+                $('#divOtherReason').hide();
+                $('#<%= txtOtherReason.ClientID %>').val(''); // Clear the text box
+            }
+        });
+    });
+</script>--%>
+
                                
                                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-6" runat="server" id="img_d">
                                       <div class="touchspin-inner">
@@ -163,10 +215,10 @@
                                     </div>
 
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 col-12">
-                                        <div class="touchspin-inner">
+                                        <%--<div class="touchspin-inner">
                                               <label>Remarks</label>
                                               <asp:TextBox ID="txt_Remarks" runat="server" TextMode="MultiLine" class="form-control form-control-sm" ></asp:TextBox>
-                                        </div>
+                                        </div>--%>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +234,7 @@
       <!-- /.card -->
     </section>
   
-
+       <asp:ValidationSummary ID="ValidationSummary1" ValidationGroup="val" runat="server" BackColor="#CCCCCC" Font-Size="Large" ForeColor="Red" />
       <section class="content">
       <div class="card collapsed-card">
         <div class="card-header" style="background-color:#363940; color:white;">
@@ -196,30 +248,75 @@
         <div class="card-body"> 
             <div class="card">
               <div class="card-body" style="width: 100%; height: 100%; overflow: auto;">
-                   <asp:GridView ID="gv_Questions" runat="server" CssClass="table table-bordered table-striped" Font-Size="13px" OnRowDataBound="gv_detail_RowDataBound" AutoGenerateColumns="false">
+               
+
+
+
+
+                   <asp:GridView ID="gv_Questions" runat="server" CssClass="table table-bordered table-striped" Font-Size="14px" OnRowDataBound="gv_detail_RowDataBound" AutoGenerateColumns="false">
                             <columns>
                                 <asp:BoundField DataField="SEQ_NO" HeaderText="Seq No" />
                                 <asp:BoundField DataField="QUESTION" HeaderText="Question" />
                                   <asp:TemplateField HeaderText="Rating">
                                       <ItemTemplate>
                                            <asp:DropDownList id="dd_Rating" runat="server" CssClass="form-control form-control-sm">
-                                               <asp:ListItem Text="1" Value="1">Poor 😔</asp:ListItem>
-                                               <asp:ListItem Text="2" Value="2">Fair 😏</asp:ListItem>
-                                               <asp:ListItem Text="3" Value="3">Good 🙂</asp:ListItem>
-                                               <asp:ListItem Text="4" Value="4">Very Good 😜</asp:ListItem>
-                                               <asp:ListItem Text="5" Value="5">Excellent 😍</asp:ListItem>
+                                               <asp:ListItem Text="Select Rating" value="0" Selected="True" />
+                                               <asp:ListItem Text="6" Value="6">Strongly Disagree</asp:ListItem>
+                                               <asp:ListItem Text="7" Value="7">Disagree</asp:ListItem>
+                                               <asp:ListItem Text="8" Value="8">Neutral</asp:ListItem>
+                                               <asp:ListItem Text="9" Value="9">Agree</asp:ListItem>
+                                               <asp:ListItem Text="10" Value="10">Strongly Agree</asp:ListItem>
                                            </asp:DropDownList>
-                                         
+                                          <asp:CustomValidator ID="RatingValidator" ValidationGroup="val" ControlToValidate="dd_Rating" runat="server" ErrorMessage="Rating field cannot be empty" Display="Dynamic" ForeColor="Red" ClientValidationFunction="validateRat">*</asp:CustomValidator>
+
+                                           <script type="text/javascript">
+                                               function validateRat(source, args) {
+                                                   var actionDropDown = document.getElementById('<%= dd_ResignType.ClientID %>');
+                 if (actionDropDown.selectedIndex === 0) {
+                     args.IsValid = false;
+                 } else {
+                     args.IsValid = true;
+                 }
+             }
+</script>
                                        <%--   <asp:TextBox ID="txt_Rating" runat="server" CssClass="form-control form-control-sm" onkeypress='return event.charCode >= 49 && event.charCode <= 53' MaxLength="1" style="width:50px;"></asp:TextBox>
                                           <ajaxToolkit:Rating ID="Rating2" runat="server" CurrentRating="1" MaxRating="5" StarCssClass="starempty" FilledStarCssClass="starfilled" WaitingStarCssClass="starwaiting" EmptyStarCssClass="starempty"></ajaxToolkit:Rating> --%>
 
                                       </ItemTemplate>
                                   </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Comments">
+                                      <ItemTemplate>
+                                          <asp:TextBox runat="server" ID="comments_ingrid" CssClass="form-control"></asp:TextBox>
+                                      </ItemTemplate>
+                                  </asp:TemplateField>
                             </columns>
                    </asp:GridView>
-              </div>
+                  
+                <div class="form-group">
+            <label for="txtNewRole">What is your new Role and associated Remuneration?</label>
+            <asp:TextBox ID="txtNewRole" runat="server" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                    <asp:RequiredFieldValidator ValidationGroup="val" ControlToValidate="txtNewRole" ID="RequiredFieldValidator2" runat="server" Display="Dynamic" ErrorMessage="New Role field cannot be empty" ForeColor="Red" SetFocusOnError="True">*</asp:RequiredFieldValidator>
+          </div>
+          <div class="form-group">
+                <label>Are you open to the possibility of being re-employed at Alkaram in the future?</label>
+                <div class="form-check">
+                    <asp:RadioButton ID="rbReEmployYes" runat="server" GroupName="ReEmploy" CssClass="form-check-input" />
+                    <asp:Label runat="server" AssociatedControlID="rbReEmployYes" CssClass="form-check-label">Yes</asp:Label>
+                </div>
+                <div class="form-check">
+                    <asp:RadioButton ID="rbReEmployNo" runat="server" GroupName="ReEmploy" CssClass="form-check-input" />
+
+                    <asp:Label runat="server" AssociatedControlID="rbReEmployNo" CssClass="form-check-label">No</asp:Label>
+                </div>
             </div>
+          <div class="form-group">
+            <label for="txtRecommendations">What are your recommendations for making Alkaram a better place to work?</label>
+            <asp:TextBox ID="txtRecommendations" runat="server" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+              <asp:RequiredFieldValidator ControlToValidate="txtRecommendations" ID="RequiredFieldValidator1" runat="server" Display="Dynamic" ErrorMessage="Recommendations field cannot be empty" ValidationGroup="val" ForeColor="Red" SetFocusOnError="True">*</asp:RequiredFieldValidator>
+          </div>
         </div>
+      </div>
+    </div>
         <div class="card-footer">
 
             <div class="row">
@@ -227,14 +324,14 @@
 
                 </div>
                 <div class="col-4 text-right">
-                     <asp:Button ID="btn_Submit" runat="server" Text="Submit" class="btn btn-dark" OnClick="btn_Submit_Click"/>          
+                     <asp:Button ID="btn_Submit" ValidationGroup="val" runat="server" Text="Submit" class="btn btn-dark" OnClick="btn_Submit_Click"/>          
                 </div>
             </div>
 
            
         </div>
       </div>
-    </section>
+      </section>
 
 
   </div>
@@ -247,5 +344,7 @@
         })
     </script>
             
+
+
 </asp:Content>
 

@@ -294,7 +294,7 @@ namespace ResignClearanceInterview
                         string _Email = dr["E_MAIL"].ToString();
                         string _PhoneNo = dr["MOBILE_NO"].ToString();
                         res.SendEmail(_Email, eBody);
-                        res.SendSmS(_PhoneNo, sBody);
+                        //res.SendSmS(_PhoneNo, sBody);
                     }
                 }
             }

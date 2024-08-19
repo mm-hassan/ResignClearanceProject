@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ResignClearanceInterview {
-    
-    
-    public partial class Request {
-        
+namespace ResignClearanceInterview
+{
+
+
+    public partial class Request
+    {
+
         /// <summary>
         /// Image1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image Image1;
-        
+
         /// <summary>
         /// lbl_EmployeeName control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbl_EmployeeName;
-        
+
         /// <summary>
         /// lbl_Designation control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbl_Designation;
-        
+
         /// <summary>
         /// lbl_DateofJoining control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbl_DateofJoining;
-        
+
         /// <summary>
         /// lbl_Address control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbl_Address;
-        
+
         /// <summary>
         /// lbl_PhoneNo control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbl_PhoneNo;
-        
+
         /// <summary>
         /// ss control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ss;
-        
+
         /// <summary>
         /// lbl_Linemanager control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbl_Linemanager;
-        
+
         /// <summary>
         /// H1 control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl H1;
-        
+
         /// <summary>
         /// lbl_HodName control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbl_HodName;
-        
+
         /// <summary>
         /// lbl_Department control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbl_Department;
-        
+
         /// <summary>
         /// lbl_TypeError control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbl_TypeError;
-        
+
         /// <summary>
         /// dd_ResignType control.
         /// </summary>
@@ -128,7 +130,16 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList dd_ResignType;
-        
+
+        /// <summary>
+        /// CustomValidatorGender control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator CustomValidatorGender;
+
         /// <summary>
         /// txt_LastDutyDate control.
         /// </summary>
@@ -137,7 +148,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txt_LastDutyDate;
-        
+
         /// <summary>
         /// dd_ResignReason control.
         /// </summary>
@@ -146,7 +157,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList dd_ResignReason;
-        
+
         /// <summary>
         /// img_d control.
         /// </summary>
@@ -155,7 +166,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl img_d;
-        
+
         /// <summary>
         /// FileUpload1 control.
         /// </summary>
@@ -164,16 +175,7 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
-        
-        /// <summary>
-        /// txt_Remarks control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txt_Remarks;
-        
+
         /// <summary>
         /// lbl_Msg control.
         /// </summary>
@@ -182,7 +184,16 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbl_Msg;
-        
+
+        /// <summary>
+        /// ValidationSummary1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary ValidationSummary1;
+
         /// <summary>
         /// gv_Questions control.
         /// </summary>
@@ -191,7 +202,61 @@ namespace ResignClearanceInterview {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gv_Questions;
-        
+
+        /// <summary>
+        /// txtNewRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNewRole;
+
+        /// <summary>
+        /// RequiredFieldValidator2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
+
+        /// <summary>
+        /// rbReEmployYes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rbReEmployYes;
+
+        /// <summary>
+        /// rbReEmployNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rbReEmployNo;
+
+        /// <summary>
+        /// txtRecommendations control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRecommendations;
+
+        /// <summary>
+        /// RequiredFieldValidator1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+
         /// <summary>
         /// btn_Submit control.
         /// </summary>

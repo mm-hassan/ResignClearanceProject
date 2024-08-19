@@ -106,7 +106,7 @@ namespace ResignClearanceInterview
             {
                 DataTable dt = new DataTable();
                 //string query = "SELECT A.EMP_CD, A.EMPLOYEE_NAME, A.DEPARTMENT_NAME, A.DESIGNATION_NAME, A.HOD_NAME, B.MOBILE_NO, TO_CHAR(B.APPOINTMENT_DATE)APPOINTMENT_DATE, B.PRESENT_ADDRESS FROM HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW A, HRM_EMPLOYEE B where 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.EMP_CD = '" + EmployeeCode + "'";
-                string query = "SELECT A.EMP_CD, A.EMPLOYEE_NAME, A.DEPARTMENT_NAME, A.DESIGNATION_NAME, A.HOD_NAME, B.MOBILE_NO, TO_CHAR(B.APPOINTMENT_DATE) APPOINTMENT_DATE, B.PRESENT_ADDRESS, (SELECT D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 132 AND D.DETAIL_ID = C.RESIGN_TYPE) RESIGN_TYPE, (SELECT D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 133 AND D.DETAIL_ID = C.RESIGN_REASON) RESIGN_REASON, (TO_DATE(C.LAST_DUTY_DATE) - TO_DATE(C.L$IN_DATE)) NOTICE_PERIODS_DAYS FROM HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW A, HRM_EMPLOYEE B, HRM_LIVE.HRM_EMP_RCI_REQUEST    C where 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.EMP_CD = C.EMP_CD AND B.EMP_CD = C.EMP_CD AND A.EMP_CD = '" + EmployeeCode + "' AND C.REQUEST_ID ='"+ RequestID +"'";
+                string query = "SELECT (SELECT Z.REMARKS FROM HRM_LIVE.HRM_EMP_RCI_REQUEST Z WHERE Z.Emp_Cd=A.EMP_CD) REMARKS, A.EMP_CD, A.EMPLOYEE_NAME, A.DEPARTMENT_NAME, A.DESIGNATION_NAME, A.HOD_NAME, B.MOBILE_NO, TO_CHAR(B.APPOINTMENT_DATE) APPOINTMENT_DATE, B.PRESENT_ADDRESS, (SELECT D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 132 AND D.DETAIL_ID = C.RESIGN_TYPE) RESIGN_TYPE, (SELECT D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 133 AND D.DETAIL_ID = C.RESIGN_REASON) RESIGN_REASON, (TO_DATE(C.LAST_DUTY_DATE) - TO_DATE(C.L$IN_DATE)) NOTICE_PERIODS_DAYS FROM HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW A, HRM_EMPLOYEE B, HRM_LIVE.HRM_EMP_RCI_REQUEST    C where 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.EMP_CD = C.EMP_CD AND B.EMP_CD = C.EMP_CD AND A.EMP_CD = '" + EmployeeCode + "' AND C.REQUEST_ID ='" + RequestID + "'";
                 dt = db.GetData(query);
                 if (dt.Rows.Count > 0)
                 {
@@ -119,7 +119,12 @@ namespace ResignClearanceInterview
                         lbl_Address.InnerText = dr["PRESENT_ADDRESS"].ToString();
                         lbl_PhoneNo.InnerText = dr["MOBILE_NO"].ToString();
                         lbl_DateofJoining.InnerText = dr["APPOINTMENT_DATE"].ToString();
+
                         lbl_ResignReason.InnerText = dr["RESIGN_REASON"].ToString();
+                        if (lbl_ResignReason.InnerText == ""){
+                            lbl_ResignReason.InnerText = dr["REMARKS"].ToString();
+                        }
+
                         lbl_ResignType.InnerText = dr["RESIGN_TYPE"].ToString();
                         lbl_NoticePeriodDays.InnerText = dr["NOTICE_PERIODS_DAYS"].ToString();
                     }
@@ -359,7 +364,7 @@ namespace ResignClearanceInterview
                             }
                             if (!string.IsNullOrEmpty(_PhoneNo))
                             {
-                                res.SendSmS(_PhoneNo, sBody);
+                                //res.SendSmS(_PhoneNo, sBody);
                             }
                            
                         }
@@ -427,7 +432,7 @@ namespace ResignClearanceInterview
                         }
                         if (!string.IsNullOrEmpty(_PhoneNo))
                         {
-                            res.SendSmS(_PhoneNo, sBody);
+                            //res.SendSmS(_PhoneNo, sBody);
                         }
                             
                     }

@@ -129,6 +129,7 @@ namespace ResignClearanceInterview
                     dt1 = db.GetData(query);
                     if (dt1.Rows.Count > 0)
                     {
+                        
                         dd_Employees.DataSource = dt1;
                         dd_Employees.DataTextField = "VALUE_TEXT";
                         dd_Employees.DataValueField = "VALUE_ID";
@@ -460,11 +461,26 @@ namespace ResignClearanceInterview
         }
 
 
+
+
+
+
+        protected void btn_GenerateReport_Click(object sender, EventArgs e)
+        {
+            // Retrieve values from text boxes
+            string fromDate = txtFromDate.Text;
+            string toDate = txtToDate.Text;
+
+
+            string url = "http://172.16.0.8/reports/rwservlet?link_idl&report=\\172.16.0.8\\erp_live_reg\\HRM0713.rdf&P_from_date=" + fromDate + "&P_TO_DATE=" + toDate + "&paramform=no";
+            url = url.Replace("&report=", "&report=\\");
+            url = url.Replace("erp_live_reg", "\\erp_live_reg\\");
+            //url = url.Replace("'", "");
+            Response.Redirect(url);
+
+        }
+
         
-
-    
-
-
  
 
 

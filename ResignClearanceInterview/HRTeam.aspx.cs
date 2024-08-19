@@ -21,6 +21,7 @@ namespace ResignClearanceInterview
             {
                 loadPendingRequests();
                 loadRecentApprovals();
+                txt_Resigndate.Enabled = false;
                 txt_Noticeperioddate.Enabled = false;
                 div_EmployeeDetails.Visible = false;
                 div_EmployeeFeedback.Visible = false;
@@ -50,7 +51,7 @@ namespace ResignClearanceInterview
                 DataTable dt = new DataTable();
                 //string query = "SELECT B.SEQ_NO, B.QUESTION, C.ANSWERS_RATING FROM HRM_LIVE.HRM_EMP_RCI_APPROVALS A, HRM_LIVE.HRM_EMP_RCI_QUESTIONS B, HRM_LIVE.HRM_EMP_RCI_ANSWERS   C WHERE A.SEQ_NO = C.REQUEST_ID AND B.SEQ_NO = C.QUESTION_SEQ_NO AND A.SEQ_NO = '"+ SeqNo +"'";
                 //string query = "SELECT B.SEQ_NO, B.QUESTION, D.RATING_NAME RATING FROM HRM_LIVE.HRM_EMP_RCI_APPROVALS A, HRM_LIVE.HRM_EMP_RCI_QUESTIONS B, HRM_LIVE.HRM_EMP_RCI_ANSWERS   C, HRM_LIVE.HRM_EMP_RCI_ANSWERS_RATINGS    D WHERE A.SEQ_NO = C.REQUEST_ID AND B.SEQ_NO = C.QUESTION_SEQ_NO AND C.ANSWERS_RATING = D.RATING_ID AND A.SEQ_NO = '" + SeqNo + "'";
-                string query = "SELECT a.SEQ_NO, A.QUESTION, C.RATING_NAME RATING FROM HRM_LIVE.HRM_EMP_RCI_QUESTIONS A, HRM_LIVE.HRM_EMP_RCI_ANSWERS B, HRM_LIVE.HRM_EMP_RCI_ANSWERS_RATINGS C WHERE 1 = 1 AND A.SEQ_NO = B.QUESTION_SEQ_NO AND C.RATING_ID = B.ANSWERS_RATING AND B.REQUEST_ID = '" + SeqNo + "'";
+                string query = "SELECT B.Comments, a.SEQ_NO, A.QUESTION, C.RATING_NAME RATING FROM HRM_LIVE.HRM_EMP_RCI_QUESTIONS A, HRM_LIVE.HRM_EMP_RCI_ANSWERS B, HRM_LIVE.HRM_EMP_RCI_ANSWERS_RATINGS C WHERE 1 = 1 AND A.SEQ_NO = B.QUESTION_SEQ_NO AND C.RATING_ID = B.ANSWERS_RATING AND B.REQUEST_ID = '" + SeqNo + "'";
                 dt = db.GetData(query);
                 if (dt.Rows.Count > 0)
                 {
@@ -62,6 +63,8 @@ namespace ResignClearanceInterview
                     gv_Questions.DataSource = dt;
                     gv_Questions.DataBind();
                 }
+
+                
             }
             catch (Exception ex)
             {
@@ -77,7 +80,11 @@ namespace ResignClearanceInterview
                 DataTable dt = new DataTable();
                 //string query = "SELECT A.REQUEST_ID, A.EMP_CD, B.EMPLOYEE_NAME, B.DESIGNATION_NAME, A.REMARKS, A.HOD_REMARKS, A.HR_TA_REMARKS, TO_CHAR(A.L$IN_DATE) L$IN_DATE, TO_CHAR(A.LAST_DUTY_DATE) LAST_DUTY_DATE, C.APPROVAL_MESSAGE FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A, HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW B, HRM_LIVE.HRM_EMP_RCI_APPROVALS C WHERE 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.REQUEST_STATUS = C.APPROVAL_SHORT_NAME AND A.REQUEST_STATUS NOT IN ('NR', 'HODA') AND A.EMP_CD IN (SELECT DISTINCT TT.EMP_CD FROM HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW TT WHERE TT.EMP_HOD_CD = '" + EmployeeCode + "' OR (SELECT DISTINCT X.EMP_CD FROM HRM_LIVE.HRM_EMP_RCI_RIGHTS_VIEW X WHERE X.EMP_CD = '" + EmployeeCode + "' AND X.ROLL = 'SUPER') = '" + EmployeeCode + "') AND A.HR_TA_APR_ON IS NOT NULL ORDER BY REQUEST_ID DESC";
                 //string query = "SELECT A.REQUEST_ID, A.EMP_CD, B.EMPLOYEE_NAME, B.DESIGNATION_NAME, B.DEPARTMENT_NAME, A.REMARKS, A.HOD_REMARKS, A.HR_TA_REMARKS, TO_CHAR(A.L$IN_DATE) L$IN_DATE, TO_CHAR(A.LAST_DUTY_DATE) LAST_DUTY_DATE, C.APPROVAL_MESSAGE FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A, HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW B, HRM_LIVE.HRM_EMP_RCI_APPROVALS C WHERE 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.REQUEST_STATUS = C.APPROVAL_SHORT_NAME AND A.REQUEST_STATUS NOT IN ('NR', 'HODA') AND A.HR_TA_APR_ON IS NOT NULL ORDER BY REQUEST_ID DESC";
-                string query = "SELECT A.REQUEST_ID, A.EMP_CD, B.EMPLOYEE_NAME, B.DESIGNATION_NAME, B.DEPARTMENT_NAME, A.REMARKS, A.HOD_REMARKS, A.HR_TA_REMARKS, TO_CHAR(A.L$IN_DATE) L$IN_DATE, TO_CHAR(A.LAST_DUTY_DATE) LAST_DUTY_DATE, C.APPROVAL_MESSAGE FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A, HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW B, HRM_LIVE.HRM_EMP_RCI_APPROVALS C, HRM_EMPLOYEE D WHERE 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.EMP_CD = D.EMP_CD AND D.REG_CD =(SELECT K.REG_CD FROM HRM_EMPLOYEE K WHERE K.EMP_CD = '" + EmployeeCode + "') AND A.REQUEST_STATUS = C.APPROVAL_SHORT_NAME AND A.REQUEST_STATUS NOT IN ('NR', 'HODA') AND A.HR_TA_APR_ON IS NOT NULL ORDER BY REQUEST_ID DESC";
+                
+                //string query = "SELECT A.REQUEST_ID, A.EMP_CD, B.EMPLOYEE_NAME, B.DESIGNATION_NAME, B.DEPARTMENT_NAME, A.REMARKS, A.HOD_REMARKS, A.HR_TA_REMARKS, TO_CHAR(A.L$IN_DATE) L$IN_DATE, TO_CHAR(A.LAST_DUTY_DATE) LAST_DUTY_DATE, C.APPROVAL_MESSAGE FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A, HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW B, HRM_LIVE.HRM_EMP_RCI_APPROVALS C, HRM_EMPLOYEE D WHERE 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.EMP_CD = D.EMP_CD AND D.REG_CD =(SELECT K.REG_CD FROM HRM_EMPLOYEE K WHERE K.EMP_CD = '" + EmployeeCode + "') AND A.REQUEST_STATUS = C.APPROVAL_SHORT_NAME AND A.REQUEST_STATUS NOT IN ('NR', 'HODA') AND A.HR_TA_APR_ON IS NOT NULL ORDER BY REQUEST_ID DESC";
+                
+                //Mubbashir Work
+                string query = " WITH FilteredRequests AS ( SELECT A.REQUEST_ID, A.EMP_CD, A.REMARKS, A.HOD_REMARKS, A.HR_TA_REMARKS, TO_CHAR(A.L$IN_DATE, 'dd-MON-yyyy') L$IN_DATE, TO_CHAR(A.LAST_DUTY_DATE, 'dd-MON-yyyy') LAST_DUTY_DATE, A.REQUEST_STATUS FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A WHERE A.EMP_CD IN (SELECT D.EMP_CD FROM HRM_EMPLOYEE D WHERE D.REG_CD = (SELECT K.REG_CD FROM HRM_EMPLOYEE K WHERE K.EMP_CD = '" + EmployeeCode + "')) AND A.REQUEST_STATUS NOT IN ('NR', 'HODA') AND A.HR_TA_APR_ON IS NOT NULL ORDER BY A.REQUEST_ID DESC ) SELECT * FROM ( SELECT R.REQUEST_ID, R.EMP_CD, B.EMPLOYEE_NAME, B.DESIGNATION_NAME, B.DEPARTMENT_NAME, R.REMARKS, R.HOD_REMARKS, R.HR_TA_REMARKS, R.L$IN_DATE, R.LAST_DUTY_DATE, C.APPROVAL_MESSAGE FROM FilteredRequests R JOIN HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW B ON R.EMP_CD = B.EMP_CD JOIN HRM_LIVE.HRM_EMP_RCI_APPROVALS C ON R.REQUEST_STATUS = C.APPROVAL_SHORT_NAME WHERE ROWNUM <= 100 ORDER BY R.REQUEST_ID DESC ) ORDER BY REQUEST_ID DESC";
                 dt = db.GetData(query);
                 if (dt.Rows.Count > 0)
                 {
@@ -140,7 +147,7 @@ namespace ResignClearanceInterview
             {
                 DataTable dt = new DataTable();
                 //string query = "SELECT A.EMP_CD, A.EMPLOYEE_NAME, A.DEPARTMENT_NAME, A.DESIGNATION_NAME, A.HOD_NAME, B.MOBILE_NO, TO_CHAR(B.APPOINTMENT_DATE)APPOINTMENT_DATE, B.PRESENT_ADDRESS FROM HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW A, HRM_EMPLOYEE B where 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.EMP_CD = '" + EmployeeCode + "'";
-                string query = "SELECT A.EMP_CD, A.EMPLOYEE_NAME, A.DEPARTMENT_NAME, A.DESIGNATION_NAME, A.HOD_NAME, B.MOBILE_NO, TO_CHAR(B.APPOINTMENT_DATE) APPOINTMENT_DATE, B.PRESENT_ADDRESS, (SELECT D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 132 AND D.DETAIL_ID = C.RESIGN_TYPE) RESIGN_TYPE, (SELECT D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 133 AND D.DETAIL_ID = C.RESIGN_REASON) RESIGN_REASON, (TO_DATE(C.LAST_DUTY_DATE) - TO_DATE(C.L$IN_DATE)) NOTICE_PERIODS_DAYS, TO_CHAR(C.LAST_DUTY_DATE)LAST_DUTY_DATE FROM HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW A, HRM_EMPLOYEE B, HRM_LIVE.HRM_EMP_RCI_REQUEST    C where 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.EMP_CD = C.EMP_CD AND B.EMP_CD = C.EMP_CD AND A.EMP_CD = '" + EmployeeCode + "' AND C.REQUEST_ID ='" + RequestID + "'";
+                string query = "SELECT (SELECT Z.Reemployment_Openness FROM HRM_LIVE.HRM_EMP_RCI_REQUEST Z WHERE Z.Emp_Cd=A.EMP_CD) Reemployment_Openness ,(SELECT Z.Recommendations FROM HRM_LIVE.HRM_EMP_RCI_REQUEST Z WHERE Z.Emp_Cd=A.EMP_CD) Recommendations, (SELECT Z.New_Role FROM HRM_LIVE.HRM_EMP_RCI_REQUEST Z WHERE Z.Emp_Cd=A.EMP_CD) NEWROLE, (SELECT Z.REMARKS FROM HRM_LIVE.HRM_EMP_RCI_REQUEST Z WHERE Z.Emp_Cd=A.EMP_CD) REMARKS, A.EMP_CD, A.EMPLOYEE_NAME, A.DEPARTMENT_NAME, A.DESIGNATION_NAME, A.HOD_NAME, B.MOBILE_NO, TO_CHAR(B.APPOINTMENT_DATE) APPOINTMENT_DATE, B.PRESENT_ADDRESS, (SELECT D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 132 AND D.DETAIL_ID = C.RESIGN_TYPE) RESIGN_TYPE, (SELECT D.DETAIL_NAME FROM HRM_SETUP_DETL D WHERE D.SEQ_NO = 133 AND D.DETAIL_ID = C.RESIGN_REASON) RESIGN_REASON, (TO_DATE(C.LAST_DUTY_DATE) - TO_DATE(C.L$IN_DATE)) NOTICE_PERIODS_DAYS, TO_CHAR(C.LAST_DUTY_DATE)LAST_DUTY_DATE, TO_CHAR(C.L$IN_DATE)L$IN_DATE FROM HRM_LIVE.HRM_EMPLOYEE_INFO_VIEW A, HRM_EMPLOYEE B, HRM_LIVE.HRM_EMP_RCI_REQUEST    C where 1 = 1 AND A.EMP_CD = B.EMP_CD AND A.EMP_CD = C.EMP_CD AND B.EMP_CD = C.EMP_CD AND A.EMP_CD = '" + EmployeeCode + "' AND C.REQUEST_ID ='" + RequestID + "'";
                 dt = db.GetData(query);
                 if (dt.Rows.Count > 0)
                 {
@@ -153,12 +160,38 @@ namespace ResignClearanceInterview
                         lbl_Address.InnerText = dr["PRESENT_ADDRESS"].ToString();
                         lbl_PhoneNo.InnerText = dr["MOBILE_NO"].ToString();
                         lbl_DateofJoining.InnerText = dr["APPOINTMENT_DATE"].ToString();
+
+                        txtNewRole.Text = dr["NEWROLE"].ToString();
+                        txtRecommendations.Text = dr["Recommendations"].ToString();
+
+                        string x = dr["Reemployment_Openness"].ToString();
+                        if (x == "Y")
+                        {
+                            rbReEmployYes.Checked = true;
+                        }
+                        else if (x == "N")
+                        {
+                            rbReEmployNo.Checked = true;
+                        }
+
+                        
+
+
                         lbl_ResignReason.InnerText = dr["RESIGN_REASON"].ToString();
+                        if (lbl_ResignReason.InnerText == "")
+                        {
+                            lbl_ResignReason.InnerText = dr["REMARKS"].ToString();
+                        }
+
+
                         lbl_ResignType.InnerText = dr["RESIGN_TYPE"].ToString();
                         lbl_NoticePeriodDays.InnerText = dr["NOTICE_PERIODS_DAYS"].ToString();
                         //txt_Noticeperioddate.Text = Convert.ToDateTime(dr["LAST_DUTY_DATE"]);
                         DateTime dat = Convert.ToDateTime(dr["LAST_DUTY_DATE"]);
                         txt_Noticeperioddate.Text = dat.ToString("yyyy-MM-dd");
+
+                        DateTime Res_dat = Convert.ToDateTime(dr["L$IN_DATE"]);
+                        txt_Resigndate.Text = Res_dat.ToString("yyyy-MM-dd");
 
                     }
                 }
@@ -177,6 +210,7 @@ namespace ResignClearanceInterview
                         lbl_NoticePeriodDays.InnerText = "30";
                         cb_Noticeperioddate.Checked = false;
                         txt_Noticeperioddate.Text = DateTime.Now.ToString();
+                        txt_Resigndate.Text = DateTime.Now.ToString();
                 }
             }
             catch (Exception ex)
@@ -265,22 +299,26 @@ namespace ResignClearanceInterview
                 string ReqId = lbl_RequestId.InnerText.ToString();
 
                 DateTime LastDutyDate = Convert.ToDateTime(txt_Noticeperioddate.Text);
+                DateTime ResignedDate = Convert.ToDateTime(txt_Resigndate.Text);
+                // Retrieve the values of the new fields
+                string isRegrettedLoss = CheckBox1.Checked ? "Y" : "N";
+                string considerForReemployment = CheckBox2.Checked ? "Y" : "N";
 
 
                 if (ReqId != "0" || ReqId != null || ReqId != string.Empty)
                 {
                     string Query = string.Empty;
-                    if (cb_Noticeperioddate.Checked)
+                    if (cb_Noticeperioddate.Checked || cb_Resigndate.Checked)
                     {
                         string QueryLogs = "INSERT INTO HRM_LIVE.HRM_EMP_RCI_APPROVALS_LOGS(LOG_ID, REQUEST_NO, ITEM_DESCRIPTIONS, ITEM_STATUS, REMARKS, APPROVAL_DEP, L$USR_IN, L$IN_DATE) ";
                         QueryLogs += " VALUES ((SELECT NVL(MAX(LOG_ID),0)+1 FROM HRM_LIVE.HRM_EMP_RCI_APPROVALS_LOGS), '" + ReqId + "','Notice Period Days Extension','Date Change', (SELECT A.LAST_DUTY_DATE FROM HRM_LIVE.HRM_EMP_RCI_REQUEST A WHERE A.REQUEST_ID = '" + ReqId + "'), 'HR', '" + EmployeeCode + "', sysdate)";
                         db.PostData(QueryLogs);
 
-                        Query = "UPDATE HRM_LIVE.HRM_EMP_RCI_REQUEST SET HR_TA_REMARKS = '" + Remarks + "', HR_TA_APR_ON = SYSDATE, HR_TA_APR_BY = '" + EmployeeCode + "', REQUEST_STATUS = 'HRTA', LAST_DUTY_DATE = TO_DATE('" + LastDutyDate + "', 'mm/dd/yyyy hh:mi:ss am') WHERE REQUEST_ID = '" + ReqId + "' AND EMP_CD = '" + Employeecd + "'";
+                        Query = "UPDATE HRM_LIVE.HRM_EMP_RCI_REQUEST SET HR_TA_REMARKS = '" + Remarks + "', HR_TA_APR_ON = SYSDATE, HR_TA_APR_BY = '" + EmployeeCode + "', REQUEST_STATUS = 'HRTA',L$IN_DATE = TO_DATE('" + ResignedDate + "', 'mm/dd/yyyy hh:mi:ss am'), LAST_DUTY_DATE = TO_DATE('" + LastDutyDate + "', 'mm/dd/yyyy hh:mi:ss am'), IS_REGRETTED_LOSS = '" + isRegrettedLoss + "', CONSIDER_FOR_REEMPLOYMENT = '" + considerForReemployment + "' WHERE REQUEST_ID = '" + ReqId + "' AND EMP_CD = '" + Employeecd + "'";
                     }
                     else 
                     {
-                        Query = "UPDATE HRM_LIVE.HRM_EMP_RCI_REQUEST SET HR_TA_REMARKS = '" + Remarks + "', HR_TA_APR_ON = SYSDATE, HR_TA_APR_BY = '" + EmployeeCode + "', REQUEST_STATUS = 'HRTA' WHERE REQUEST_ID = '" + ReqId + "' AND EMP_CD = '" + Employeecd + "'";
+                        Query = "UPDATE HRM_LIVE.HRM_EMP_RCI_REQUEST SET HR_TA_REMARKS = '" + Remarks + "', HR_TA_APR_ON = SYSDATE, HR_TA_APR_BY = '" + EmployeeCode + "', REQUEST_STATUS = 'HRTA', IS_REGRETTED_LOSS = '" + isRegrettedLoss + "', CONSIDER_FOR_REEMPLOYMENT = '" + considerForReemployment + "' WHERE REQUEST_ID = '" + ReqId + "' AND EMP_CD = '" + Employeecd + "'";
                     }
 
                     string Result = db.PostData(Query);
@@ -314,9 +352,14 @@ namespace ResignClearanceInterview
                 string Remarks = txt_Remarks.Text;
                 string Employeecd = lbl_EmployeeCode.InnerText.ToString();
                 string ReqId = lbl_RequestId.InnerText.ToString();
+
+                // Retrieve the values of the new fields
+                string isRegrettedLoss = CheckBox1.Checked ? "Y" : "N";
+                string considerForReemployment = CheckBox2.Checked ? "Y" : "N";
+
                 if (ReqId != "0" || ReqId != null || ReqId != string.Empty)
                 {
-                    string Query = "UPDATE HRM_LIVE.HRM_EMP_RCI_REQUEST SET HR_TA_REMARKS = '" + Remarks + "', HR_TA_APR_ON = SYSDATE, HR_TA_APR_BY = '" + EmployeeCode + "', REQUEST_STATUS = 'HRTR' WHERE REQUEST_ID = '" + ReqId + "' AND EMP_CD = '" + Employeecd + "'";
+                    string Query = "UPDATE HRM_LIVE.HRM_EMP_RCI_REQUEST SET HR_TA_REMARKS = '" + Remarks + "', HR_TA_APR_ON = SYSDATE, HR_TA_APR_BY = '" + EmployeeCode + "', REQUEST_STATUS = 'HRTR', IS_REGRETTED_LOSS = '" + isRegrettedLoss + "', CONSIDER_FOR_REEMPLOYMENT = '" + considerForReemployment + "' WHERE REQUEST_ID = '" + ReqId + "' AND EMP_CD = '" + Employeecd + "'";
                     string Result = db.PostData(Query);
                     if (Result == "Done")
                     {
@@ -349,7 +392,7 @@ namespace ResignClearanceInterview
                 eBody += "Employee Name : " + lbl_EmployeeName.InnerHtml + "<br />";
                 eBody += "Employee Department : " + lbl_Department.InnerHtml + "<br />";
                 eBody += "Employee Designation : " + lbl_Designation.InnerText + "<br /><br />";
-                eBody += "http://203.170.75.251/rci/" + "<br />";
+                eBody += "http://webapp.alkaram.com/rci/" + "<br />";
                 eBody += " **System Generated Email** ";
                 //###### Email Body
 
@@ -362,7 +405,7 @@ namespace ResignClearanceInterview
                 sBody += "Employee Name : " + lbl_EmployeeName.InnerHtml + "\n";
                 sBody += "Employee Department : " + lbl_Department.InnerHtml + "\n";
                 sBody += "Employee Designation : " + lbl_Designation.InnerText + "\n";
-                sBody += "http://203.170.75.251/rci/" + "\n";
+                sBody += "http://webapp.alkaram.com/rci/" + "\n";
                 sBody += " **System Generated SMS** ";
                 //###### SMS Body
 
@@ -378,13 +421,25 @@ namespace ResignClearanceInterview
                         string _Email = dr["E_MAIL"].ToString();
                         string _PhoneNo = dr["MOBILE_NO"].ToString();
                         res.SendEmail(_Email, eBody);
-                        res.SendSmS(_PhoneNo, sBody);
+                        //res.SendSmS(_PhoneNo, sBody);
                     }
                 }
             }
             catch (Exception ex)
             {
 
+            }
+        }
+
+        protected void cb_Resigndate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_Resigndate.Checked)
+            {
+                txt_Resigndate.Enabled = true;
+            }
+            else 
+            {
+                txt_Resigndate.Enabled = false;
             }
         }
 

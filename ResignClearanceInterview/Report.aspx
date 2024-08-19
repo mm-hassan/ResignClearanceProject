@@ -32,7 +32,7 @@
         </div>
         <div class="card-body"> 
             <div class="card">
-              <div class="card-body" style="width: 100%; height: 360px; overflow: auto;">
+              <div class="card-body" style="width: 100%; height: 400px; overflow: auto;">
                   
                    <div class="row">
                       <div class="col-4 col-md-2 text-center">
@@ -47,13 +47,14 @@
                                  
                          </asp:DropDownList>
 
-                        <asp:TextBox ID="txt_Employeeno" runat="server" TextMode="Number" class="form-control form-control-sm" OnTextChanged="txt_Employeeno_TextChanged" AutoPostBack="true"></asp:TextBox>
+                        <asp:TextBox ID="txt_Employeeno" runat="server" class="form-control form-control-sm" OnTextChanged="txt_Employeeno_TextChanged" AutoPostBack="true"></asp:TextBox>
                         <p runat="server" id="lbl_Msg">.</p>
                         <br />
                       <p class="text-muted text-sm"><b>Department </b> <span runat="server" id="lbl_Department" style="color:#5960ff; font-weight: 900;"></span></p>
                       <p class="text-muted text-sm"><b>Designation </b> <span runat="server" id="lbl_Designation" style="color:#5960ff; font-weight: 900;"></span>
                       <p class="text-muted text-sm"><b>Email Address</b> <span runat="server" id="lbl_Email" style="color:#5960ff; font-weight: 900;"></span></p>
                       <p class="text-muted text-sm"><b>Phone No </b> <span runat="server" id="lbl_Phoneno" style="color:#5960ff; font-weight: 900;"></span></p>
+                           
                       <div class="text-right">
                           <asp:LinkButton ID="btn_Statusreport" runat="server" class="btn btn-sm btn-danger" OnClick="btn_Statusreport_Click"><i class="fas fa-receipt"></i> Status Report</asp:LinkButton>
                           <asp:LinkButton ID="btn_Clearancereport" runat="server" class="btn btn-sm btn-primary" OnClick="btn_Clearancereport_Click"><i class="fas fa-mail-bulk"></i> Clearance Report</asp:LinkButton>
@@ -70,7 +71,27 @@
             </div>
         </div>
         <div class="card-footer">
+            <div class="card" style="width: 25rem;">
+        <div class="card-body">
+            <asp:ValidationSummary ID="ValidationSummary1" ValidationGroup="val" runat="server" BackColor="#CCCCCC" Font-Size="Large" ForeColor="Red" />
+            <h5 class="card-title">Generate Report</h5>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <asp:TextBox ID="txtFromDate" runat="server" CssClass="form-control form-control-sm" placeholder="From Date" style="max-width: 125px;"></asp:TextBox>
+                <ajaxToolkit:CalendarExtender ID="calFromDate" runat="server" TargetControlID="txtFromDate" Format="dd-MMM-yyyy" />
+                                        <asp:RequiredFieldValidator ValidationGroup="val" ControlToValidate="txtFromDate" ID="RequiredFieldValidator2" runat="server" Display="Dynamic" ErrorMessage="From Date field cannot be empty" ForeColor="Red" SetFocusOnError="True">*</asp:RequiredFieldValidator>
 
+                <asp:TextBox ID="txtToDate" runat="server" CssClass="form-control form-control-sm" placeholder="To Date" style="max-width: 125px;"></asp:TextBox>
+                <ajaxToolkit:CalendarExtender ID="calToDate" runat="server" TargetControlID="txtToDate" Format="dd-MMM-yyyy" />
+                                        <asp:RequiredFieldValidator ValidationGroup="val" ControlToValidate="txtToDate" ID="RequiredFieldValidator1" runat="server" Display="Dynamic" ErrorMessage="To Date field cannot be empty" ForeColor="Red" SetFocusOnError="True">*</asp:RequiredFieldValidator>
+                  
+                    <asp:Button ID="Button1" ValidationGroup="val" runat="server" Text="Generate Report" CssClass="btn btn-sm btn-info"  style="max-width: 115px;" OnClick="btn_GenerateReport_Click" />
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
             <div class="row">
                 <div class="col-8" style="display:none;">
                     <asp:GridView ID="gv_Details" runat="server"></asp:GridView>
@@ -84,13 +105,10 @@
            
         </div>
       </div>
+
     </section>
+    
+      
 
-
-
-
-
-  </div>
-
- 
+ </div>
 </asp:Content>

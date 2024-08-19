@@ -80,7 +80,7 @@
 
 
 
-
+       <asp:ValidationSummary ID="ValidationSummary1" ValidationGroup="val" runat="server" BackColor="#CCCCCC" Font-Size="Large" ForeColor="Red" />
       <section class="content" id="div_EmployeeDetails" runat="server">
       <!-- Default box -->
       <div class="card card-solid">
@@ -118,16 +118,30 @@
                       <div class="col-12 col-md-5">
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="touchspin-inner">
-                                    <p>Remarks</p>
+                                    <p>HR FeedBack</p>
                                     <asp:TextBox ID="txt_Remarks" runat="server" TextMode="MultiLine" class="form-control form-control-sm"></asp:TextBox>
                                 </div>
                           </div>
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-1">
                               <div class="touchspin-inner">
-                                   Notice Period Days Extension <asp:CheckBox ID="cb_Noticeperioddate" runat="server" AutoPostBack="True" OnCheckedChanged="cb_Noticeperioddate_CheckedChanged" />
+                                   Notice Period Days Update <asp:CheckBox ID="cb_Noticeperioddate" runat="server" AutoPostBack="True" OnCheckedChanged="cb_Noticeperioddate_CheckedChanged" />
                               </div>
                               <div class="touchspin-inner">
                                       <asp:TextBox ID="txt_Noticeperioddate" runat="server" TextMode="date" class="form-control form-control-sm"></asp:TextBox>
+                              </div>
+
+                              <div class="touchspin-inner">
+                                   Resign Date Update <asp:CheckBox ID="cb_Resigndate" runat="server" AutoPostBack="True" OnCheckedChanged="cb_Resigndate_CheckedChanged" />
+                              </div>
+                              <div class="touchspin-inner">
+                                      <asp:TextBox ID="txt_Resigndate" runat="server" TextMode="date" class="form-control form-control-sm"></asp:TextBox>
+                              </div>
+
+                              <div class="touchspin-inner">
+                                  Is this resource a regretted loss to Alkaram?<br /> <asp:RadioButton ID="CheckBox1" runat="server"  GroupName="yes" Text="Yes" />  <asp:RadioButton ID="CheckBox3" Class="pl-4" GroupName="yes" runat="server" Text="No" />
+                              </div>
+                              <div class="touchspin-inner">
+                                  Should this resource be considered for re-employment in the future?<br /> <asp:RadioButton ID="CheckBox2"  runat="server" GroupName="no"  Text="Yes" />  <asp:RadioButton ID="CheckBox4" Class="pl-4" GroupName="no" runat="server" Text="No" />
                               </div>
                           </div>  
                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top:20px;">
@@ -185,9 +199,10 @@
               <div class="card-body" style="width: 100%; height: auto; overflow: auto;">
                    <asp:GridView ID="gv_Questions" runat="server" CssClass="table table-bordered table-striped" Font-Size="13px" AutoGenerateColumns="false">
                             <columns>
-                                <asp:BoundField DataField="SEQ_NO" HeaderText="Seq No" />
+                                <%--<asp:BoundField DataField="SEQ_NO" HeaderText="Seq No" />--%>
                                 <asp:BoundField DataField="QUESTION" HeaderText="Question" />
                                 <asp:BoundField DataField="RATING" HeaderText="Rating Result" />
+                                <asp:BoundField DataField="Comments" HeaderText="Comments" />
                             </columns>
                    </asp:GridView>
               </div>
@@ -204,8 +219,29 @@
                 </div>--%>
             </div>
 
-           
+           <div class="form-group">
+            <label for="txtNewRole">What is your new Role and associated Remuneration?</label>
+            <asp:TextBox ID="txtNewRole" Enabled="false" runat="server" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+          </div>
+          <div class="form-group">
+                <label>Are you open to the possibility of being re-employed at Alkaram in the future?</label>
+                <div class="form-check">
+                    <asp:RadioButton ID="rbReEmployYes" Enabled="false" runat="server" GroupName="ReEmploy" CssClass="form-check-input" />
+                    <asp:Label runat="server" AssociatedControlID="rbReEmployYes" CssClass="form-check-label">Yes</asp:Label>
+                </div>
+                <div class="form-check">
+                    <asp:RadioButton ID="rbReEmployNo" Enabled="false" runat="server" GroupName="ReEmploy" CssClass="form-check-input" />
+
+                    <asp:Label runat="server" AssociatedControlID="rbReEmployNo" CssClass="form-check-label">No</asp:Label>
+                </div>
+            </div>
+          <div class="form-group">
+            <label for="txtRecommendations">What are your recommendations for making Alkaram a better place to work?</label>
+            <asp:TextBox ID="txtRecommendations" Enabled="false" runat="server" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+          </div>
         </div>
+         
+         
       </div>
     </section>
 
